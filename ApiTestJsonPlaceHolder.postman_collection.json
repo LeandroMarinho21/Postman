@@ -1,0 +1,478 @@
+{
+	"info": {
+		"_postman_id": "7198c1f4-cf6d-4445-8a3b-add3438f4ced",
+		"name": "ApiTestJsonPlaceHolder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Buscar Posts",
+					"item": [
+						{
+							"name": "Busca Post",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"     console.log(\"Retornou 200 com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se retorna parte do valor do corpo\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"est\");\r",
+											"    console.log(\"Texto retornado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verificar titulo da usuário consultado\r",
+											"pm.test(\"Verify title\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.title).to.eql(\"qui est esse\")\r",
+											"    console.log(\"Titulo retornado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verificar user id do usuário consultado\r",
+											"pm.test(\"Verify user id\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.userId).to.eql(1)\r",
+											"    console.log(\"User ID OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui um dado especifico do header\r",
+											"pm.test(\"Connection is present\", function () {\r",
+											"    pm.response.to.have.header(\"Connection\");\r",
+											"       pm.response.to.be.header(\"Connection\", \"keep-alive\");\r",
+											"\r",
+											"    console.log(\"Dado do header OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se a requisição demora menos de 2 segundos\r",
+											"pm.test(\"Response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"    console.log(\"Executou em menos de 2 segundos com sucesso\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_base}}/posts/2",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"posts",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Criar Posts",
+					"item": [
+						{
+							"name": "Criar Post",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 201 ou 202\r",
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"    console.log(\"Retornou 201 ou 202 com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui uma parte do valor do corpo\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Texto\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"Título\");\r",
+											"    console.log(\"Texto encontrado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui um dado especifico do header\r",
+											"pm.test(\"Content-Length is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Length\");\r",
+											"    pm.response.to.be.header(\"Content-Length\", \"56\");\r",
+											"    console.log(\"Dado do header OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se a requisição demora menos de 2 segundos\r",
+											"pm.test(\"Response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"    console.log(\"Executou em menos de 2 segundos com sucesso\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Título\",\r\n    \"body\": \"Texto\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_base}}/posts",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"posts"
+									]
+								},
+								"description": "Requisição de posts"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Excluir Posts",
+					"item": [
+						{
+							"name": "Excluir Post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Retornou 200 com sucesso\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url_base}}/posts/{{id_post_excluir}}",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"posts",
+										"{{id_post_excluir}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Comentarios",
+			"item": [
+				{
+					"name": "Buscar comentários",
+					"item": [
+						{
+							"name": "Buscar comentário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Retornou 200 com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui uma parte do valor do corpo\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"quia\");\r",
+											"    console.log(\"Texto encontrado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui partes do corpo corretamente\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"email\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"body\");\r",
+											"    console.log(\"Partes do corpo OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui um dado especifico do header\r",
+											"pm.test(\"Pragma is present\", function () {\r",
+											"    pm.response.to.have.header(\"pragma\");\r",
+											"    pm.response.to.be.header(\"pragma\", \"no-cache\");\r",
+											"    console.log(\"Dado do header OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se a requisição demora menos de 2 segundos\r",
+											"pm.test(\"Response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"    console.log(\"Executou em menos de 2 segundos com sucesso\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_base}}/comments/{{id_coment}}",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"comments",
+										"{{id_coment}}"
+									]
+								},
+								"description": "Requisição de comentários"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Criar Comentarios",
+					"item": [
+						{
+							"name": "Criar Comentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 201 ou 202\r",
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"    console.log(\"Retornou 201 ou 202 com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui o valor do corpo corretamente\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"name\");\r",
+											"    pm.response.to.have.jsonBody(\"email\");\r",
+											"    console.log(\"Body correto\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Investiment\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"leo@123\");\r",
+											"    console.log(\"Texto encontrado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui um dado especifico do header\r",
+											"pm.test(\"Content-Type is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"    console.log(\"Dado do header OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se a requisição demora menos de 2 segundos\r",
+											"pm.test(\"Response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"    console.log(\"Executou em menos de 2 segundos com sucesso\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"name\": \"Leandro\",\r\n\"email\": \"leo@123\",\r\n\"body\": \"Investiment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_base}}/comments",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Alterar comentários",
+					"item": [
+						{
+							"name": "Alterar Comentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Retornou 200 com sucesso\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui uma parte do valor do corpo\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Leandro\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"leo@123\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"Investiment\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se possui um dado especifico do header\r",
+											"pm.test(\"Server is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"    pm.response.to.be.header(\"Server\", \"cloudflare\");\r",
+											"        console.log(\"Dado do header OK\");\r",
+											"});\r",
+											"\r",
+											"//Verifica se a requisição demora menos de 2 segundos\r",
+											"pm.test(\"Response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"name\": \"Leandro\",\r\n\"email\": \"leo@123\",\r\n\"body\": \"Investiment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_base}}/comments/{{id_coment}}",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"comments",
+										"{{id_coment}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Deletar comentários",
+					"item": [
+						{
+							"name": "Excluir comentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verifica se o status code é 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Retornou 200 com sucesso\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url_base}}/comments/{{id_delete_coment}}",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"comments",
+										"{{id_delete_coment}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"console.log(pm.info.requestName);",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
